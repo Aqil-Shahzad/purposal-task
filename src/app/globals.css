@@ -110,7 +110,8 @@ a {
   }
 }
 .background-color{
-  background-color: #224D99;;
+  background-color: #224D99;
+  /* width: 80%; */
 }
 .height{
   height: 60rem;
@@ -121,4 +122,10 @@ a {
 .text-color-white{
   color:
   #FFFFFF;
+}
+.background-color-gray{
+  background-color: gainsboro;
+}
+.text-color-yellow{
+  color: #FFC400;;
 }
