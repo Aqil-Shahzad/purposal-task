@@ -10,13 +10,14 @@ const auth= getAuth(app);
 export default function SignIn() {
   const router = useRouter();
 
-  // const goToSign = () => {
-  //   router.push("project");
-  // };
+  const goToSign = () => {
+    router.push("project");
+  };
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const signInUser=()=>{
-    signInWithEmailAndPassword(auth,email,password).then((value)=>console.log("Successfully SignedIn"));
+    signInWithEmailAndPassword(auth,email,password).then(goToSign);
+    // (value)=>console.log("Successfully SignedIn")
   }
 
   return (

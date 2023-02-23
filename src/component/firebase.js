@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore"
 const firebaseConfig = {
     apiKey: "AIzaSyCublxBhtVcvNyho4wc3J1bDxni0PkcWhw",
     authDomain: "purposal-9a677.firebaseapp.com",
@@ -9,3 +10,4 @@ const firebaseConfig = {
     databaseURL: "https://console.firebase.google.com/project/purposal-9a677/database/purposal-9a677-default-rtdb/data/~2F"
   };
   export  const app = initializeApp(firebaseConfig);
+  export  const database = getFirestore(app);

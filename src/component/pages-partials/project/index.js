@@ -1,102 +1,118 @@
 import "../../../app/globals.css";
 import Image from "next/image";
+import { app, database } from "../../firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { data } from "autoprefixer";
 
 export default function Project() {
+  const databaseRef = collection(database, "CRUD data");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState(null);
+  const [fireData, setFireData] = useState([]);
+
+  // // useEffect(() => {
+  // //   let token = sessionStorage.getItem("Token");
+  // //   if (token) {
+     
+  // //   }
+  //   // if (!token) {
+  //   //   router.push('/register')
+  //   // }
+  // }, []);
+  const addData = () => {
+    addDoc(databaseRef, {
+      name: name,
+      age: Number(age),
+    })
+      .then(() => {
+        alert("Data send");
+        setName(""), setAge(null);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const getData = async () => {
+    await getDocs(databaseRef).then((response) => {
+      setFireData(
+        response.docs.map((data) => {
+          return { ...data.data(), id: data.id };
+        })
+      );
+    });
+  };
+
   return (
     <>
       <div>
         <div>
           <nav className="flex h-15 items-center justify-between px-10 py-5  background-color w-screen">
             <div>
-            <h2 className="text-4xl text-color-yellow ml-10">Purposals</h2>
+              <h2 className="text-4xl text-color-yellow ml-10">Purposals</h2>
             </div>
-           <div className="flex items-center space-x-4 float-right">
-           <Image
-              src="/svg/nav-img.svg"
-              alt="Landscape picture"
-              width={60}
-              height={30}
-            ></Image>
-            <p className="text-color-white text-xl">Logout</p>
-            <Image
-              src="/svg/nav-img2.svg"
-              alt="Landscape picture"
-              width={20}
-              height={10}
-            ></Image>
-           </div>
-            
+            <div className="flex items-center space-x-4 float-right">
+              <Image
+                src="/svg/nav-img.svg"
+                alt="Landscape picture"
+                width={60}
+                height={30}
+              ></Image>
+              <p className="text-color-white text-xl">Logout</p>
+              <Image
+                src="/svg/nav-img2.svg"
+                alt="Landscape picture"
+                width={20}
+                height={10}
+              ></Image>
+            </div>
           </nav>
         </div>
-        <div>
-          <label>Project</label>
+        <div className="flex flex-col justify-center items-center  py-36 space-y-8">
+          <h1 className="text-4xl font-bold">Home Page</h1>
+          <input
+            onChange={(event) => setName(event.target.value)}
+            value={name}
+            type="text"
+            placeholder="Enter Name"
+            className="p-3 rounded-lg lg:w-80 md:w-72 w-48"
+          ></input>
+          <input
+            onChange={(event) => setAge(event.target.value)}
+            value={age}
+            type="number"
+            placeholder="Enter Age"
+            className="p-3 rounded-lg lg:w-80 md:w-72 w-48"
+          ></input>
+          <button
+            onClick={addData}
+            className="p-3 rounded-lg lg:w-80 md:w-72 w-48 background-color text-color-white"
+          >
+            Add Data
+          </button>
+          <button
+            onClick={ getData}
+            className="p-3 rounded-lg lg:w-80 md:w-72 w-48 background-color text-color-white"
+          >
+            Show Data
+          </button>
+          <div>
+            {fireData.map((data) => {
+              return (
+                <>
+                <div className="background-color p-5 w-80 text-color-white ">
+                <h3 >Name: {data.name}</h3>
+                  <p>Age: {data.age}</p>
+                </div>
+                 
+                </>
+              );
+            })}
+          </div>
         </div>
+       
       </div>
-      {/* <div className="flex justify-center items-center lg:flex-row flex-col lg:h-full lg:w-full">
-        <div className=" background-color lg:h-[60rem] h-96 lg:w-2/4 w-full relative flex lg:flex-row flex-col lg:justify-center  ">
-          <div className="flex justify-center items-center bg-cover lg:block hidden overflow-hidden relative">
-          <Image
-              src="/svg/bg-img.svg"
-              alt="Landscape picture"
-              width={600}
-              height={400}
-            />
-          </div>
-          <div className="absolute lg:flex-row flex-col py-10 mt-10  ">
-            <div className=" ">
-            <Image
-                src="/svg/icon.svg"
-                alt="Landscape picture"
-                width={800}
-                height={500}
-              />
-            </div>
-          </div>
-        </div>
-        <div className=" lg:flex justify-center items-center  lg:w-2/4 w-full lg:px-0 px-5 lg:py-0 py-5 ">
-          <div className=" space-y-5 ">
-            <h2 className="text-5xl font-bold text-color-blue">Welcome to Project component</h2>
-            <div className="lg:space-y-0 space-y-3">
-              <input
-                type="text"
-                placeholder="First Name"
-                className="p-3 rounded-lg lg:w-40 w-80"
-              ></input>
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="p-3 rounded-lg lg:w-40 w-80 lg:ml-1"
-              ></input>
-            </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Enter your Email"
-                className="p-3 rounded-lg w-80"
-              ></input>
-            </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                className="p-3 rounded-lg w-80"
-              ></input>
-            </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="p-3 rounded-lg w-80"
-              ></input>
-            </div>
-            <div>
-              <button className="background-color p-3 rounded-lg w-80 text-color-white text-base ">
-                Project
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }
