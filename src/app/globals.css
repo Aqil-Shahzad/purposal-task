@@ -129,6 +129,9 @@ a {
 .text-color-yellow{
   color: #FFC400;;
 }
-.bg-light-gray{
-  background-color: rgba(128, 128, 128, 0.007);
+.text-color-black{
+  color: black;
 }
+/* .bg-light-gray{
+  background-color: rgba(128, 128, 128, 0.007);
+} */
